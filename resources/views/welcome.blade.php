@@ -8,6 +8,8 @@
 
     </head>
     <body>
-        <H1>Hello too</H1>
+        <div id="app">
+         <example-component></example-component>   
+        </div>
     </body>
 </html>
