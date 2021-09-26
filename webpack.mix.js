@@ -1,4 +1,4 @@
-const mix = require('laravel-mix');
+const mix = require("laravel-mix");
 
 /*
  |--------------------------------------------------------------------------
@@ -11,7 +11,13 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
+mix.js("resources/js/app.js", "public/js")
     .vue()
-    .sass('resources/sass/app.scss', 'public/css')
-    .browserSync('vue-weather-app');
+    .postCss("resources/css/main.css", "public/css", [require("tailwindcss")])
+    .js("node_modules/popper.js/dist/popper.js", "public/js")
+    .sourceMaps()
+    .browserSync("vue-weather-app");
+// .browserSync({
+//     proxy: "vue-weather-app",
+//     files: ["public/**/*.css", "resources/**/*"]
+// });
