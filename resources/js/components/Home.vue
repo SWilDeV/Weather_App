@@ -16,9 +16,9 @@ export default {
         };
     },
     beforeMount() {
-        //this.getWeatherData();
-        // this.getLocation();
-        this.getFakeAPI();
+        this.getWeatherData();
+        //this.getLocation();
+        //this.getFakeAPI();
     },
     methods: {
         async getWeatherData() {

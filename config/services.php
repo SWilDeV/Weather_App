@@ -29,5 +29,10 @@ return [
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
-
+    'openweather' => [
+        'key' => env('VUE_APP_API_OPEN_WEATHER_KEY')
+    ],
+    'location' => [
+        'key' => env('VUE_APP_API_LOCATION_IPSTACK_KEY')
+    ],
 ];
