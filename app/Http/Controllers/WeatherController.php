@@ -26,7 +26,25 @@ class WeatherController extends Controller
 
         $Location = Http::get("http://api.ipstack.com/check?access_key=$keyAPI");
 
+        // $Location = Http::get("https://jsonplaceholder.typicode.com/users/1/todos");
+
+
         $LocationJson = json_decode($Location);
-        return $LocationJson;
+
+        $latitude=($LocationJson->latitude);
+        $longitude=($LocationJson->longitude);
+        // return $LocationJson;
+
+        //
+        $keyAPI=config('services.openweather.key');
+        
+
+        $Weather = Http::get("https://api.openweathermap.org/data/2.5/onecall?lat=$latitude&lon=$longitude&exclude=daily,minutely&appid=$keyAPI");
+
+        $WeatherJson = json_decode($Weather);
+        return $WeatherJson;
+        //
+
+        
     }
 }

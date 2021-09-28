@@ -19,4 +19,5 @@ Route::get('/', function () {
 
 Route::get('/weather', [WeatherController::class, "index"]);
 
+
 Route::get('/location', [WeatherController::class, "location"]);
