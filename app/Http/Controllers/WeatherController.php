@@ -21,10 +21,10 @@ class WeatherController extends Controller
         $longitude=($LocationJson->longitude);
 
         //Get Weather with location Info
-        
         $Weather = Http::get("https://api.openweathermap.org/data/2.5/onecall?lat=$latitude&lon=$longitude&exclude=daily,minutely&appid=$keyAPIWeather");
 
         $WeatherJson = json_decode($Weather);
+        
         return $WeatherJson;
     }
 }
