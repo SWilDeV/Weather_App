@@ -1,50 +1,47 @@
-export async function getWeather() {
+export async function getWeather(APIKey) {
+    const Location = await getLocation(APIKey);
 
-  const Location = getLocation();
-
-  const lat = Location.latitude;
-  const long = Location.longitude;
-  const data ={latitude: lat, longitude:long}
-
-  // const response = await fetch("/weather", {
-  //     method: "GET"
-  // });
-  // const responseJSON = response.json();
-  // return responseJSON;
-  
-  const response = await fetch("/weather",{
-    method: 'POST',
-    headers: {
-    'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
+    const lat = Location.latitude;
+    const long = Location.longitude;
+ 
+    const response = await fetch(`/api/weather?latitude=${lat}&longitude=${long}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        },
     });
 
-    if(response.ok){
-      const responseJSON = response.json();
-      return responseJSON;
+    if (response.ok) {
+        const responseJSON = response.json();
+        return responseJSON;
     }
-      console.log('problem with API')
-}
-  
-export async function getFakeAPI() {
-  const response = await fetch("https://jsonplaceholder.typicode.com/users/1/todos", {
-      method: "GET"
-  });
-  if(response.ok){
-    const responseJSON = response.json();
-    return responseJSON;
-  }
-  console.log('problem with API')
+    console.log("problem with weather API");
 }
 
-export async function getLocation(){
-  const response = await fetch(`http://api.ipstack.com/check?access_key=${process.env.VUE_APP_API_LOCATION_IPSTACK_KEY}`,{
-    method:"GET"
-  });
-  if(response.ok){
-    const responseJSON = response.json();
-    return responseJSON;
-  }
-  console.log('problem with LocationAPI request')
+export async function getFakeAPI() {
+    const response = await fetch(
+        "https://jsonplaceholder.typicode.com/users/1/todos",
+        {
+            method: "GET"
+        }
+    );
+    if (response.ok) {
+        const responseJSON = response.json();
+        return responseJSON;
+    }
+    console.log("problem with API");
+}
+
+export async function getLocation(APIKey) {
+    const response = await fetch(
+        `http://api.ipstack.com/check?access_key=${APIKey}`,
+        {
+            method: "GET"
+        }
+    );
+    if (response.ok) {
+        const responseJSON = response.json();
+        return responseJSON;
+    }
+    console.log("problem with LocationAPI request");
 }

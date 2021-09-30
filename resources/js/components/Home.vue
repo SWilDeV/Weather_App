@@ -1,6 +1,6 @@
 <template>
     <div>
-        hello you too 
+        hello you too
     </div>
 </template>
 
@@ -21,7 +21,8 @@ export default {
     methods: {
         async getWeatherData() {
             try {
-                this.WeatherItems = await getWeather();
+                const APIKey = process.env.MIX_LOCATIONKEY;
+                this.WeatherItems = await getWeather(APIKey);
                 console.log(this.WeatherItems);
             } catch (e) {
                 console.error(e);
@@ -39,4 +40,3 @@ export default {
 };
 </script>
 
-<style></style>

@@ -30,9 +30,9 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
     'openweather' => [
-        'key' => env('VUE_APP_API_OPEN_WEATHER_KEY')
+        'key' => env('MIX_KEY_OPEN_WEATHER_KEY')
     ],
     'location' => [
-        'key' => env('VUE_APP_API_LOCATION_IPSTACK_KEY')
+        'key' => env('MIX_LOCATIONKEY')
     ],
 ];
