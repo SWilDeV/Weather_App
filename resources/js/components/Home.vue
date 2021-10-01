@@ -16,14 +16,22 @@ export default {
     },
     beforeMount() {
         this.getWeatherData();
+        this.useLocalData();
         //this.getFakeAPI();
     },
     methods: {
         async getWeatherData() {
             try {
                 const APIKey = process.env.MIX_LOCATIONKEY;
-                this.WeatherItems = await getWeather(APIKey);
-                console.log(this.WeatherItems);
+
+                if (localStorage.getItem("testObject") === null) {
+                    this.WeatherItems = await getWeather(APIKey);
+                    const testObject = this.WeatherItems;
+                    localStorage.setItem(
+                        "testObject",
+                        JSON.stringify(testObject)
+                    );
+                }
             } catch (e) {
                 console.error(e);
             }
@@ -35,8 +43,13 @@ export default {
             } catch (e) {
                 console.log(e);
             }
+        },
+        async useLocalData() {
+            this.WeatherItems = await JSON.parse(
+                localStorage.getItem("testObject")
+            );
+            console.log(this.WeatherItems);
         }
     }
 };
 </script>
-

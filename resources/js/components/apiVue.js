@@ -3,13 +3,16 @@ export async function getWeather(APIKey) {
 
     const lat = Location.latitude;
     const long = Location.longitude;
- 
-    const response = await fetch(`/api/weather?latitude=${lat}&longitude=${long}`, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json"
-        },
-    });
+
+    const response = await fetch(
+        `/api/weather?latitude=${lat}&longitude=${long}`,
+        {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }
+    );
 
     if (response.ok) {
         const responseJSON = response.json();

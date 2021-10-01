@@ -12,13 +12,6 @@ class WeatherController extends Controller
         //$keyAPILocation=config('services.location.key');
         $keyAPIWeather=config('services.openweather.key');
 
-        //Get location info
-
-        // $Location = Http::get("http://api.ipstack.com/check?access_key=$keyAPILocation");
-        // $LocationJson = json_decode($Location);
-        // $latitude=($LocationJson->latitude);
-        // $longitude=($LocationJson->longitude);
-
         $latitude=request('latitude');
         $longitude=request('longitude');
         error_log($latitude);
