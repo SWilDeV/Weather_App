@@ -24,9 +24,7 @@ Route::get('/weather', function(){
     $latitude=request('latitude');
     $longitude=request('longitude');
     
-    $Weather = Http::get("https://api.openweathermap.org/data/2.5/onecall?lat=$latitude&lon=$longitude&exclude=daily,minutely&appid=$keyAPIWeather");
+    $Weather = Http::get("https://api.openweathermap.org/data/2.5/onecall?lat=$latitude&lon=$longitude&exclude=minutely&appid=$keyAPIWeather");
 
-    $WeatherJson = json_decode($Weather);
-    
-    return $WeatherJson;
+    return $Weather;
 });

@@ -1,9 +1,4 @@
-export async function getWeather(APIKey) {
-    const Location = await getLocation(APIKey);
-
-    const lat = Location.latitude;
-    const long = Location.longitude;
-
+export async function getWeather(lat,long) {
     const response = await fetch(
         `/api/weather?latitude=${lat}&longitude=${long}`,
         {
@@ -16,7 +11,7 @@ export async function getWeather(APIKey) {
 
     if (response.ok) {
         const responseJSON = response.json();
-        return responseJSON;
+         return responseJSON;
     }
     console.log("problem with weather API");
 }
@@ -48,3 +43,4 @@ export async function getLocation(APIKey) {
     }
     console.log("problem with LocationAPI request");
 }
+

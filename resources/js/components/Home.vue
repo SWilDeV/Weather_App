@@ -1,40 +1,73 @@
 <template>
     <div>
-        hello you too
+        <headerV :city="Location.city" :country="Location.country_name" />
+        <current
+            v-if="CurrentWeather"
+            :time="CurrentWeather.dt"
+            :temp="CurrentWeather.temp"
+            :humidity="CurrentWeather.humidity"
+            :rain="CurrentWeather.rain"
+            :sunset="CurrentWeather.sunset"
+            :wind="CurrentWeather.wind_speed"
+        />
     </div>
 </template>
 
 <script>
-import { getWeather, getFakeAPI } from "./apiVue.js";
+import { getWeather, getFakeAPI, getLocation } from "./apiVue.js";
+import headerV from "./Header";
+import current from "./Current";
 export default {
     name: "Home",
+    components: {
+        headerV,
+        current
+    },
     data: function() {
         return {
-            WeatherItems: [],
-            FakeAPI: []
+            WeatherItems: {},
+            CurrentWeather: null,
+            Location: {},
+            FakeAPI: ""
         };
     },
-    beforeMount() {
-        this.getWeatherData();
-        this.useLocalData();
-        //this.getFakeAPI();
+    created() {
+        this.getLocation();
     },
     methods: {
-        async getWeatherData() {
+        async getLocation() {
             try {
-                const APIKey = process.env.MIX_LOCATIONKEY;
-
-                if (localStorage.getItem("testObject") === null) {
-                    this.WeatherItems = await getWeather(APIKey);
-                    const testObject = this.WeatherItems;
+                if (localStorage.getItem("WeatherData") === null) {
+                    const APIKey = process.env.MIX_LOCATIONKEY;
+                    const LocationData = await getLocation(APIKey);
                     localStorage.setItem(
-                        "testObject",
-                        JSON.stringify(testObject)
+                        "LocationData",
+                        JSON.stringify(LocationData)
                     );
+
+                    const lat = LocationData.latitude;
+                    const long = LocationData.longitude;
+                    const WeatherData = await getWeather(lat, long);
+                    localStorage.setItem(
+                        "WeatherData",
+                        JSON.stringify(WeatherData)
+                    );
+                    this.useLocalData();
+                } else {
+                    this.useLocalData();
                 }
             } catch (e) {
-                console.error(e);
+                console.log(e);
             }
+        },
+        async useLocalData() {
+            this.WeatherItems = await JSON.parse(
+                localStorage.getItem("WeatherData")
+            );
+            this.Location = await JSON.parse(
+                localStorage.getItem("LocationData")
+            );
+            this.CurrentWeather = this.WeatherItems.current;
         },
         async getFakeAPI() {
             try {
@@ -43,12 +76,6 @@ export default {
             } catch (e) {
                 console.log(e);
             }
-        },
-        async useLocalData() {
-            this.WeatherItems = await JSON.parse(
-                localStorage.getItem("testObject")
-            );
-            console.log(this.WeatherItems);
         }
     }
 };
