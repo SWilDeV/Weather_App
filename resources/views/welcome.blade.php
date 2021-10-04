@@ -9,7 +9,7 @@
         <script src="/js/app.js" defer ></script>
 
     </head>
-    <body class="bg-red-500">
+    <body>
         <div id="app">
          <weather-app></weather-app>  
         </div>

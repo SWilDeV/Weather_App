@@ -1,7 +1,8 @@
 <template>
     <div>
-        <headerV :city="Location.city" :country="Location.country_name" />
         <current
+            :city="Location.city"
+            :country="Location.country_name"
             v-if="CurrentWeather"
             :time="CurrentWeather.dt"
             :temp="CurrentWeather.temp"
@@ -9,6 +10,7 @@
             :rain="CurrentWeather.rain"
             :sunset="CurrentWeather.sunset"
             :wind="CurrentWeather.wind_speed"
+            :feel="CurrentWeather.feels_like"
         />
     </div>
 </template>
