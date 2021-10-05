@@ -5,7 +5,7 @@
             class="weather-container font-sans w-128 max-w-lg overflow-hidden bg-gray-900 rounded-lg shadow-lg mt-4"
         >
             <div
-                class="current-weather flex items-center justify-between px-10 py-8"
+                class="current-weather flex items-center justify-between px-10 py-7"
             >
                 <div>
                     <div>
@@ -19,20 +19,33 @@
                             <div class="">
                                 <p>Ressenti: {{ feels }}°C</p>
                             </div>
+                            <div class="pt-3">
+                                <h1>{{ currentTime }}, {{ currentDay }}</h1>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div>
-                    <div class="pb-2">
-                        <h1>{{ currentTime }}, {{ currentDay }}</h1>
-                    </div>
-
                     <h1>Humidite: {{ humidity }} %</h1>
                     <h1>Probabilite de pluie: {{ rainn }} %</h1>
                     <h1>Force du vent: {{ windd }} km/h</h1>
                     <h1>Coucher de soleil: {{ sunsett }}</h1>
                 </div>
             </div>
+            <!--end current weather -->
+            <div
+                class="future-weather text-sm bg-gray-700 px-6 py-8 overflow-hidden"
+            >
+                <div class="flex items-center">
+                    <div class="w-1/6 text-lg text-gray-820">Monday</div>
+                    <div class="w-4/6 px-4 flex items-center">
+                        <div>Icon</div>
+                        <div class="ml-3">Cloudy with a chance of rain</div>
+                    </div>
+                    <div class="w-1/6"></div>
+                </div>
+            </div>
+            <!--end weather container -->
         </div>
     </div>
 </template>
