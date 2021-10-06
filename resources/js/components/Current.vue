@@ -95,7 +95,7 @@ export default {
                 hour12: false
             });
         },
-        convertMath() {
+        async convertMath() {
             //temperature
             this.temperature = Math.round(this.temp - 273.15);
             this.feels = Math.round(this.feel - 273.15);
