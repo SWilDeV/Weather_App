@@ -99,11 +99,17 @@ export default {
             //temperature
             this.temperature = Math.round(this.temp - 273.15);
             this.feels = Math.round(this.feel - 273.15);
-            //rain
-            const r = Object.values(this.rain);
-            this.rainn = r[0] * 100;
+
             //wind
             this.windd = Math.round(this.wind);
+
+            //rain
+            if (this.rain == null) {
+                this.rainn = 0;
+            } else {
+                const r = Object.values(this.rain);
+                this.rainn = r[0] * 100;
+            }
         }
     }
 };
