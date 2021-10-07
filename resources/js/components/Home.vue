@@ -1,17 +1,31 @@
 <template>
     <div>
-        <current
-            :city="Location.city"
-            :country="Location.country_name"
-            v-if="CurrentWeather"
-            :time="CurrentWeather.dt"
-            :temp="CurrentWeather.temp"
-            :humidity="CurrentWeather.humidity"
-            :rain="CurrentWeather.rain"
-            :sunset="CurrentWeather.sunset"
-            :wind="CurrentWeather.wind_speed"
-            :feel="CurrentWeather.feels_like"
-        />
+        <div class="text-white mb-8">
+            <div
+                class="weather-container font-sans w-128 max-w-lg overflow-hidden rounded-lg shadow-lg mt-4"
+            >
+                <current
+                    :city="Location.city"
+                    :country="Location.country_name"
+                    v-if="CurrentWeather"
+                    :time="CurrentWeather.dt"
+                    :temp="CurrentWeather.temp"
+                    :humidity="CurrentWeather.humidity"
+                    :rain="CurrentWeather.rain"
+                    :sunset="CurrentWeather.sunset"
+                    :wind="CurrentWeather.wind_speed"
+                    :feel="CurrentWeather.feels_like"
+                />
+                <daily
+                    :v-if="DailyWeather"
+                    v-for="weather in DailyWeather"
+                    :key="weather.dt"
+                    :clouds="weather.clouds"
+                    :temp="weather.temp"
+                    :day="weather.dt"
+                />
+            </div>
+        </div>
     </div>
 </template>
 
@@ -19,16 +33,20 @@
 import { getWeather, getFakeAPI, getLocation } from "./apiVue.js";
 import headerV from "./Header";
 import current from "./Current";
+import daily from "./Daily.vue";
+
 export default {
     name: "Home",
     components: {
         headerV,
-        current
+        current,
+        daily
     },
     data: function() {
         return {
             WeatherItems: {},
             CurrentWeather: null,
+            DailyWeather: null,
             Location: {},
             FakeAPI: ""
         };
@@ -70,6 +88,7 @@ export default {
                 localStorage.getItem("LocationData")
             );
             this.CurrentWeather = this.WeatherItems.current;
+            this.DailyWeather = this.WeatherItems.daily;
         },
         async getFakeAPI() {
             try {
