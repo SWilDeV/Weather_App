@@ -1,7 +1,7 @@
 <template>
     <div>
         <div
-            class="future-weather text-sm bg-gray-700 px-6 py-8 mt-1 overflow-hidden"
+            class="future-weather text-sm bg-gray-700 px-6 py-8 overflow-hidden"
         >
             <div class="flex items-center">
                 <div class="w-1/6 text-lg text-gray-820">
