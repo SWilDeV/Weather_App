@@ -15,14 +15,16 @@
                     :sunset="CurrentWeather.sunset"
                     :wind="CurrentWeather.wind_speed"
                     :feel="CurrentWeather.feels_like"
+                    :weather="CurrentWeather.weather"
                 />
+
                 <daily
-                    :v-if="DailyWeather"
-                    v-for="weather in DailyWeather"
+                    v-for="weather in getArray"
                     :key="weather.dt"
                     :clouds="weather.clouds"
-                    :temp="weather.temp"
+                    :temps="weather.temp"
                     :day="weather.dt"
+                    :weather="weather.weather"
                 />
             </div>
         </div>
@@ -30,7 +32,7 @@
 </template>
 
 <script>
-import { getWeather, getFakeAPI, getLocation } from "./apiVue.js";
+import { getWeather, getLocation } from "./apiVue.js";
 import headerV from "./Header";
 import current from "./Current";
 import daily from "./Daily.vue";
@@ -47,9 +49,15 @@ export default {
             WeatherItems: {},
             CurrentWeather: null,
             DailyWeather: null,
-            Location: {},
-            FakeAPI: ""
+            Location: {}
         };
+    },
+    computed: {
+        getArray() {
+            if (this.DailyWeather) {
+                return this.DailyWeather.slice(1);
+            }
+        }
     },
     created() {
         this.getLocation();
@@ -89,14 +97,6 @@ export default {
             );
             this.CurrentWeather = this.WeatherItems.current;
             this.DailyWeather = this.WeatherItems.daily;
-        },
-        async getFakeAPI() {
-            try {
-                this.FakeAPI = await getFakeAPI();
-                console.log(this.FakeAPI);
-            } catch (e) {
-                console.log(e);
-            }
         }
     }
 };

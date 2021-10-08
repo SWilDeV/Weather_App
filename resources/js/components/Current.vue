@@ -23,6 +23,12 @@
                 </div>
             </div>
             <div>
+                <canvas
+                    ref="iconCurrent"
+                    id="iconCurrent"
+                    width="96"
+                    height="96"
+                ></canvas>
                 <h1>Humidite: {{ humidity }} %</h1>
                 <h1>Probabilite de pluie: {{ rainn }} %</h1>
                 <h1>Force du vent: {{ windd }} km/h</h1>
@@ -30,15 +36,14 @@
             </div>
         </div>
         <!--end current weather -->
-        <div>
-            
-        </div>
+        <div></div>
     </div>
 
     <!--end weather container -->
 </template>
 
 <script>
+import { getSkycon } from "./weatherIcons";
 export default {
     name: "current",
     data() {
@@ -49,7 +54,8 @@ export default {
             temperature: "",
             rainn: "",
             windd: "",
-            feels: ""
+            feels: "",
+            id: ""
         };
     },
     props: {
@@ -61,13 +67,21 @@ export default {
         wind: Number,
         city: String,
         country: String,
-        feel: Number
+        feel: Number,
+        weather: Array
     },
     mounted() {
         this.convertTime();
         this.convertMath();
+        this.convertWeather();
+        this.getIcons();
     },
     methods: {
+        getIcons() {
+            var skycons = new Skycons({ color: "white" });
+            const icon = getSkycon(this.id);
+            skycons.add("iconCurrent", icon);
+        },
         convertTime() {
             const dateObject = new Date(this.time * 1000);
             const sunsetTime = new Date(this.sunset * 1000);
@@ -98,6 +112,10 @@ export default {
                 const r = Object.values(this.rain);
                 this.rainn = r[0] * 100;
             }
+        },
+        convertWeather() {
+            this.main = this.weather[0].main;
+            this.id = this.weather[0].id;
         }
     }
 };

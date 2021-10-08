@@ -6,6 +6,8 @@
 
         <title>Weather</title>
         <link rel="stylesheet" href="/css/main.css">
+        <script src="https://maxdow.github.io/skycons/skycons.js"></script>
+        <!-- <script src="https://rawgithub.com/darkskyapp/skycons/master/skycons.js"></script> -->
         <script src="/js/app.js" defer ></script>
 
     </head>
