@@ -81,6 +81,7 @@ export default {
             var skycons = new Skycons({ color: "white" });
             const icon = getSkycon(this.id);
             skycons.add("iconCurrent", icon);
+            skycons.play();
         },
         convertTime() {
             const dateObject = new Date(this.time * 1000);

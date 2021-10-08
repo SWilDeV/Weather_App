@@ -8,15 +8,14 @@
                     <h1>{{ DateValue }}</h1>
                     <h1>{{ TempDay }}°C</h1>
                 </div>
-                <div class="w-4/6 px-4 flex items-center">
-                    <div>{{ id }}</div>
-                    <div class="ml-3">{{ main }}</div>
+                <div class="w-4/6 px-16 flex items-center">
                     <canvas
                         ref="iconDaily"
-                        id="iconDaily"
+                        :id="`icon${day}`"
                         width="48"
                         height="48"
                     ></canvas>
+                    <div class="mx-3">{{ description }}</div>
                 </div>
                 <div class="w-1/6 text-right">
                     <h1>Max: {{ TempMax }}°C</h1>
@@ -37,7 +36,7 @@ export default {
             TempDay: "",
             TempMin: "",
             TempMax: "",
-            main: "",
+            description: "",
             id: ""
         };
     },
@@ -58,7 +57,8 @@ export default {
         getIcons() {
             var skycons = new Skycons({ color: "white" });
             const icon = getSkycon(this.id);
-            skycons.add("iconDaily", icon);
+            skycons.add(`icon${this.day}`, icon);
+            skycons.play();
         },
         convertTime() {
             const dateObject = new Date(this.day * 1000);
@@ -83,7 +83,7 @@ export default {
             }
         },
         convertWeather() {
-            this.main = this.weather[0].main;
+            this.description = this.weather[0].description;
             this.id = this.weather[0].id;
         }
     }
