@@ -2,12 +2,16 @@
     <!-- <h1>{{ time }}</h1> -->
     <div>
         <div
-            class="current-weather bg-gray-900 flex items-center justify-between px-10 py-7"
+            class="current-weather bg-indigo-900 flex items-center justify-between px-10 py-7"
         >
             <div>
                 <div>
                     <div class="">
                         <h1>{{ city }}, {{ country }}</h1>
+                    </div>
+                    <div class="pt-1">
+                        <h1>{{ currentTime }}</h1>
+                        <!-- <h1>{{ currentTime }}, {{ currentDay }}</h1> -->
                     </div>
                     <div>
                         <div class="text-6xl font-semibold pt-6 pb-1">
@@ -15,9 +19,6 @@
                         </div>
                         <div class="">
                             <p>Ressenti: {{ feels }}°C</p>
-                        </div>
-                        <div class="pt-3">
-                            <h1>{{ currentTime }}, {{ currentDay }}</h1>
                         </div>
                     </div>
                 </div>
@@ -29,10 +30,10 @@
                     width="96"
                     height="96"
                 ></canvas>
-                <h1>Humidite: {{ humidity }} %</h1>
+                <!-- <h1>Humidite: {{ humidity }} %</h1>
                 <h1>Probabilite de pluie: {{ rainn }} %</h1>
                 <h1>Force du vent: {{ windd }} km/h</h1>
-                <h1>Coucher de soleil: {{ sunsett }}</h1>
+                <h1>Coucher de soleil: {{ sunsett }}</h1> -->
             </div>
         </div>
         <!--end current weather -->

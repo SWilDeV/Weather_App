@@ -1,25 +1,24 @@
 <template>
     <div>
         <div
-            class="future-weather text-sm bg-gray-700 px-6 py-8 overflow-hidden"
+            class="future-weather text-sm bg-indigo-300 px-6 py-4 overflow-hidden"
         >
             <div class="flex items-center">
-                <div class="w-1/6 text-lg text-gray-820">
+                <div class="w-1/6 text-lg">
                     <h1>{{ DateValue }}</h1>
                     <h1>{{ TempDay }}°C</h1>
                 </div>
-                <div class="w-4/6 px-16 flex items-center">
+                <div class="w-4/6 px-16 justify-center flex items-center">
                     <canvas
                         ref="iconDaily"
                         :id="`icon${day}`"
                         width="48"
                         height="48"
                     ></canvas>
-                    <div class="mx-3">{{ description }}</div>
                 </div>
                 <div class="w-1/6 text-right">
-                    <h1>Max: {{ TempMax }}°C</h1>
-                    <h1>Min: {{ TempMin }}°C</h1>
+                    <h1>{{ TempMax }}°C</h1>
+                    <h1>{{ TempMin }}°C</h1>
                 </div>
             </div>
         </div>

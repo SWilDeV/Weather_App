@@ -7,12 +7,11 @@
         <title>Weather</title>
         <link rel="stylesheet" href="/css/main.css">
         <script src="https://maxdow.github.io/skycons/skycons.js"></script>
-        <!-- <script src="https://rawgithub.com/darkskyapp/skycons/master/skycons.js"></script> -->
         <script src="/js/app.js" defer ></script>
 
     </head>
     <body>
-        <div id="app">
+        <div id="app" class="flex justify-center md:pt-16">
          <weather-app></weather-app>  
         </div>
     </body>

@@ -2,7 +2,7 @@
     <div>
         <div class="text-white mb-8">
             <div
-                class="weather-container font-sans w-128 max-w-lg overflow-hidden rounded-lg shadow-lg mt-4"
+                class="weather-container font-sans w-screen md:w-128 max-w-lg overflow-hidden rounded-lg shadow-lg md:mt-4"
             >
                 <current
                     :city="Location.city"
@@ -54,6 +54,7 @@ export default {
     },
     computed: {
         getArray() {
+            //remove first entry of the array
             if (this.DailyWeather) {
                 return this.DailyWeather.slice(1);
             }
