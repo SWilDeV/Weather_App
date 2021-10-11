@@ -47,7 +47,6 @@ export default {
     },
     data: function() {
         return {
-            WeatherItems: {},
             CurrentWeather: null,
             DailyWeather: null,
             LocationCity: "",
@@ -81,46 +80,47 @@ export default {
                 this.LocationCountry = LocationData.country_name;
 
                 this.getWeather(lat, long);
-                // } else {
-                //     this.useLocalData();
-                // }
             } catch (e) {
                 console.log(e);
             }
         },
         async getWeather(lat, long) {
-            // const WeatherData = await getWeatherAPI(lat, long);
-            this.WeatherItems = await getWeatherAPI(lat, long);
-            this.CurrentWeather = this.WeatherItems.current;
-            this.DailyWeather = this.WeatherItems.daily;
-            // localStorage.setItem("WeatherData", JSON.stringify(WeatherData));
-            // this.useLocalData();
+            try {
+                const Weather = await getWeatherAPI(lat, long);
+                this.CurrentWeather = Weather.current;
+                this.DailyWeather = Weather.daily;
+            } catch (e) {
+                console.log(e);
+            }
         },
-        async useLocalData() {
-            this.WeatherItems = await JSON.parse(
-                localStorage.getItem("WeatherData")
-            );
-            const Loc = await JSON.parse(localStorage.getItem("LocationData"));
-            this.LocationCity = Loc.city;
-            this.LocationCountry = Loc.country_name;
+        // async useLocalData() {
+        //     this.WeatherItems = await JSON.parse(
+        //         localStorage.getItem("WeatherData")
+        //     );
+        //     const Loc = await JSON.parse(localStorage.getItem("LocationData"));
+        //     this.LocationCity = Loc.city;
+        //     this.LocationCountry = Loc.country_name;
 
-            this.CurrentWeather = this.WeatherItems.current;
-            this.DailyWeather = this.WeatherItems.daily;
-        },
+        //     this.CurrentWeather = this.WeatherItems.current;
+        //     this.DailyWeather = this.WeatherItems.daily;
+        // },
         async changeCity(city) {
-            const mapBoxKey = process.env.MIX_MAPBOXKEY;
-            const citydata = await getCityCoordinates(city, mapBoxKey);
-            console.log(citydata);
-            //this.City = citydata.features[0];
-            const lat = citydata.features[0].center[1];
-            const long = citydata.features[0].center[0];
-            console.log(lat + ", " + long);
-            this.getWeather(lat, long);
+            try {
+                const mapBoxKey = process.env.MIX_MAPBOXKEY;
+                const citydata = await getCityCoordinates(city, mapBoxKey);
+                console.log(citydata);
+                const lat = citydata.features[0].center[1];
+                const long = citydata.features[0].center[0];
+                console.log(lat + ", " + long);
+                this.getWeather(lat, long);
 
-            const citytot = citydata.features[0].place_name.split(",");
-            this.LocationCity = citytot[0];
-            this.LocationCountry =
-                citytot.length == 2 ? citytot[1] : citytot[2];
+                const citytot = citydata.features[0].place_name.split(",");
+                this.LocationCity = citytot[0];
+                this.LocationCountry =
+                    citytot.length == 2 ? citytot[1] : citytot[2];
+            } catch (e) {
+                console.log(e);
+            }
         }
     }
 };

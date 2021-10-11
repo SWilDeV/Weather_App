@@ -14,10 +14,10 @@
                     </div>
                     <div>
                         <div class="text-6xl font-semibold pt-6 pb-1">
-                            <p>{{ temperature }} °C</p>
+                            <p>{{ temp }} °C</p>
                         </div>
                         <div class="">
-                            <p>Ressenti: {{ feels }}°C</p>
+                            <p>Ressenti: {{ feel }}°C</p>
                         </div>
                     </div>
                 </div>
@@ -68,13 +68,24 @@ export default {
         city: String,
         country: String,
         feel: Number,
-        weather: Array,
+        weather: Array
     },
     mounted() {
         this.convertTime();
         this.convertMath();
         this.convertWeather();
         this.getIcons();
+    },
+    computed: {
+        convertTempx() {
+            //temperature
+            return this.temp = Math.round(this.temp - 273.15);
+           // this.feel = Math.round(this.feel - 273.15);
+        },
+        convertWeatherX() {
+            //this.main = this.weather[0].main;
+            return this.id = this.weather[0].id;
+        }
     },
     methods: {
         getIcons() {
@@ -98,7 +109,7 @@ export default {
                 hour12: false
             });
         },
-        async convertMath() {
+        convertMath() {
             //temperature
             this.temperature = Math.round(this.temp - 273.15);
             this.feels = Math.round(this.feel - 273.15);
