@@ -4,6 +4,7 @@
             <div
                 class="weather-container font-sans w-screen md:w-128 max-w-lg overflow-hidden rounded-lg shadow-lg md:mt-4"
             >
+                <searchBar />
                 <current
                     :city="Location.city"
                     :country="Location.country_name"
@@ -33,16 +34,16 @@
 
 <script>
 import { getWeather, getLocation } from "./apiVue.js";
-import headerV from "./Header";
 import current from "./Current";
+import searchBar from "./Search";
 import daily from "./Daily.vue";
 
 export default {
     name: "Home",
     components: {
-        headerV,
         current,
-        daily
+        daily,
+        searchBar
     },
     data: function() {
         return {

@@ -11,7 +11,7 @@
 
     </head>
     <body>
-        <div id="app" class="flex justify-center md:pt-16">
+        <div id="app" >
          <weather-app></weather-app>  
         </div>
     </body>
