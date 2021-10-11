@@ -1,5 +1,5 @@
 <template>
-    <div class="flex inline-flex">
+    <!-- <div class="flex inline-flex">
         <div>
             <input type="text" class="text-blue-500 w-full w-5/6" />
         </div>
@@ -11,11 +11,43 @@
                 OK
             </button>
         </div>
+    </div> -->
+    <div class="p-4 bg-indigo-900">
+        <div class="bg-white flex items-center rounded-full shadow-xl">
+            <input
+                class="rounded-l-full w-full py-4 px-6 text-gray-700 leading-tight focus:outline-none"
+                id="search"
+                type="text"
+                placeholder="Rechercher une ville"
+                v-model="city"
+            />
+
+            <div class="p-4">
+                <button
+                    class="bg-blue-500 text-white rounded-full p-2 hover:bg-blue-400 focus:outline-none w-12 h-12 flex items-center justify-center"
+                    v-on:click="addNewCity"
+                >
+                    GO
+                </button>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
 export default {
-    name: "search-bar"
+    name: "search-bar",
+    data() {
+        return {
+            city: ""
+        };
+    },
+    methods: {
+        addNewCity() {
+            const city = this.city;
+            this.$emit("city-added", city);
+            this.city = "";
+        }
+    }
 };
 </script>

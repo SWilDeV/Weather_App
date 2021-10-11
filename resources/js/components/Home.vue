@@ -4,10 +4,10 @@
             <div
                 class="weather-container font-sans w-screen md:w-128 max-w-lg overflow-hidden rounded-lg shadow-lg md:mt-4"
             >
-                <searchBar />
+                <searchBar @city-added="changeCity($event)" />
                 <current
-                    :city="Location.city"
-                    :country="Location.country_name"
+                    :city="LocationCity"
+                    :country="LocationCountry"
                     v-if="CurrentWeather"
                     :time="CurrentWeather.dt"
                     :temp="CurrentWeather.temp"
@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { getWeather, getLocation } from "./apiVue.js";
+import { getWeatherAPI, getLocation, getCityCoordinates } from "./apiVue.js";
 import current from "./Current";
 import searchBar from "./Search";
 import daily from "./Daily.vue";
@@ -50,7 +50,9 @@ export default {
             WeatherItems: {},
             CurrentWeather: null,
             DailyWeather: null,
-            Location: {}
+            LocationCity: "",
+            LocationCountry: "",
+            City: null
         };
     },
     computed: {
@@ -67,38 +69,58 @@ export default {
     methods: {
         async getLocation() {
             try {
-                if (localStorage.getItem("WeatherData") === null) {
-                    const APIKey = process.env.MIX_LOCATIONKEY;
-                    const LocationData = await getLocation(APIKey);
-                    localStorage.setItem(
-                        "LocationData",
-                        JSON.stringify(LocationData)
-                    );
+                const APILocationKey = process.env.MIX_LOCATIONKEY;
+                const LocationData = await getLocation(APILocationKey);
+                localStorage.setItem(
+                    "LocationData",
+                    JSON.stringify(LocationData)
+                );
+                const lat = LocationData.latitude;
+                const long = LocationData.longitude;
+                this.LocationCity = LocationData.city;
+                this.LocationCountry = LocationData.country_name;
 
-                    const lat = LocationData.latitude;
-                    const long = LocationData.longitude;
-                    const WeatherData = await getWeather(lat, long);
-                    localStorage.setItem(
-                        "WeatherData",
-                        JSON.stringify(WeatherData)
-                    );
-                    this.useLocalData();
-                } else {
-                    this.useLocalData();
-                }
+                this.getWeather(lat, long);
+                // } else {
+                //     this.useLocalData();
+                // }
             } catch (e) {
                 console.log(e);
             }
+        },
+        async getWeather(lat, long) {
+            // const WeatherData = await getWeatherAPI(lat, long);
+            this.WeatherItems = await getWeatherAPI(lat, long);
+            this.CurrentWeather = this.WeatherItems.current;
+            this.DailyWeather = this.WeatherItems.daily;
+            // localStorage.setItem("WeatherData", JSON.stringify(WeatherData));
+            // this.useLocalData();
         },
         async useLocalData() {
             this.WeatherItems = await JSON.parse(
                 localStorage.getItem("WeatherData")
             );
-            this.Location = await JSON.parse(
-                localStorage.getItem("LocationData")
-            );
+            const Loc = await JSON.parse(localStorage.getItem("LocationData"));
+            this.LocationCity = Loc.city;
+            this.LocationCountry = Loc.country_name;
+
             this.CurrentWeather = this.WeatherItems.current;
             this.DailyWeather = this.WeatherItems.daily;
+        },
+        async changeCity(city) {
+            const mapBoxKey = process.env.MIX_MAPBOXKEY;
+            const citydata = await getCityCoordinates(city, mapBoxKey);
+            console.log(citydata);
+            //this.City = citydata.features[0];
+            const lat = citydata.features[0].center[1];
+            const long = citydata.features[0].center[0];
+            console.log(lat + ", " + long);
+            this.getWeather(lat, long);
+
+            const citytot = citydata.features[0].place_name.split(",");
+            this.LocationCity = citytot[0];
+            this.LocationCountry =
+                citytot.length == 2 ? citytot[1] : citytot[2];
         }
     }
 };

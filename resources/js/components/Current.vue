@@ -1,5 +1,4 @@
 <template>
-    <!-- <h1>{{ time }}</h1> -->
     <div>
         <div
             class="current-weather bg-indigo-900 flex items-center justify-between px-10 py-7"
@@ -69,7 +68,7 @@ export default {
         city: String,
         country: String,
         feel: Number,
-        weather: Array
+        weather: Array,
     },
     mounted() {
         this.convertTime();

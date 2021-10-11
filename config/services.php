@@ -35,4 +35,7 @@ return [
     'location' => [
         'key' => env('MIX_LOCATIONKEY')
     ],
+    'mapbox' => [
+        'key' => env('MIX_MAPBOXKEY')
+    ],
 ];
