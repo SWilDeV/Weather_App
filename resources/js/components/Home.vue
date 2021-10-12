@@ -13,6 +13,7 @@
                     :temp="CurrentTemp"
                     :feel="CurrentFeel"
                     :weatherId="CurrentId"
+                    :cities="cities"
                 />
 
                 <daily
@@ -30,6 +31,7 @@
 
 <script>
 import { getWeatherAPI, getLocation, getCityCoordinates } from "./apiVue.js";
+import { getSkycon } from "./weatherIcons";
 import current from "./Current";
 import searchBar from "./Search";
 import daily from "./Daily.vue";
@@ -52,7 +54,8 @@ export default {
             DailyWeather: null,
             LocationCity: "",
             LocationCountry: "",
-            City: null
+            City: null,
+            cities: []
         };
     },
     computed: {
@@ -65,8 +68,12 @@ export default {
     },
     created() {
         this.getLocation();
+        // this.getIcons();
     },
     methods: {
+        getIcons() {
+            var skycons1 = new Skycons({ color: "white" });
+        },
         async getLocation() {
             //IPStack API
             try {
@@ -81,6 +88,9 @@ export default {
                 this.LocationCity = LocationData.city;
                 this.LocationCountry = LocationData.country_name;
 
+                const obj = { cit: LocationData.city, lat: lat };
+                this.cities.push(obj);
+
                 this.getWeather(lat, long);
             } catch (e) {
                 console.log(e);
@@ -90,14 +100,20 @@ export default {
             //OpenWeather API
             try {
                 const Weather = await getWeatherAPI(lat, long);
-                this.convertCurrentData(Weather.current.dt, Weather.daily,Weather.current.weather[0].id,Weather.current.temp, Weather.current.feels_like );
+                this.convertCurrentData(
+                    Weather.current.dt,
+                    Weather.daily,
+                    Weather.current.weather[0].id,
+                    Weather.current.temp,
+                    Weather.current.feels_like
+                );
 
                 this.CurrentWeather = Weather.current;
             } catch (e) {
                 console.log(e);
             }
         },
-        convertCurrentData(CurrentTime, daily, id, currentTemp,feels_like) {
+        convertCurrentData(CurrentTime, daily, id, currentTemp, feels_like) {
             //Current Data
             this.CurrentTemp = Math.round(currentTemp - 273.15);
             this.CurrentFeel = Math.round(feels_like - 273.15);
@@ -120,6 +136,9 @@ export default {
                 this.LocationCity = citytot[0];
                 this.LocationCountry =
                     citytot.length == 2 ? citytot[1] : citytot[2];
+
+                const obj = { cit: citytot[0], lat: lat };
+                this.cities.push(obj);
             } catch (e) {
                 console.log(e);
             }

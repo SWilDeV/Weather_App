@@ -23,12 +23,12 @@
                 </div>
             </div>
             <div>
-                <canvas
-                    ref="iconCurrent"
-                    :id="`icon${city}`"
-                    width="96"
-                    height="96"
-                ></canvas>
+                <skycon
+                    v-for="c in cities"
+                    :key="c.lat"
+                    :city="city"
+                    :weatherId="weatherId"
+                />
             </div>
         </div>
         <!--end current weather -->
@@ -40,26 +40,24 @@
 
 <script>
 import { getSkycon } from "./weatherIcons";
+import skycon from "./Skycon.vue";
 export default {
     name: "current",
+    components: {
+        skycon
+    },
     props: {
         time: String,
         temp: Number,
         city: String,
         country: String,
         feel: Number,
-        weatherId: Number
+        weatherId: Number,
+        cities: Array
     },
-    mounted() {
-        this.getIcons();
-    },
-    computed: {},
-    methods: {
-        getIcons() {
-            var skycons = new Skycons({ color: "white" });
-            const icon = getSkycon(this.weatherId);
-            skycons.add(`icon${this.city}`, icon);
-            skycons.play();
+    computed: {
+        addedCity() {
+            return this.cities.slice(1)
         }
     }
 };
