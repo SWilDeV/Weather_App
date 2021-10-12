@@ -9,14 +9,10 @@
                     :city="LocationCity"
                     :country="LocationCountry"
                     v-if="CurrentWeather"
-                    :time="CurrentWeather.dt"
-                    :temp="CurrentWeather.temp"
-                    :humidity="CurrentWeather.humidity"
-                    :rain="CurrentWeather.rain"
-                    :sunset="CurrentWeather.sunset"
-                    :wind="CurrentWeather.wind_speed"
-                    :feel="CurrentWeather.feels_like"
-                    :weather="CurrentWeather.weather"
+                    :time="CurrentTime"
+                    :temp="CurrentTemp"
+                    :feel="CurrentFeel"
+                    :weatherId="CurrentId"
                 />
 
                 <daily
@@ -48,6 +44,11 @@ export default {
     data: function() {
         return {
             CurrentWeather: null,
+            CurrentTemp: null,
+            CurrentFeel: null,
+            CurrentTime: null,
+            CurrentDay: null,
+            CurrentId: null,
             DailyWeather: null,
             LocationCity: "",
             LocationCountry: "",
@@ -67,6 +68,7 @@ export default {
     },
     methods: {
         async getLocation() {
+            //IPStack API
             try {
                 const APILocationKey = process.env.MIX_LOCATIONKEY;
                 const LocationData = await getLocation(APILocationKey);
@@ -85,14 +87,60 @@ export default {
             }
         },
         async getWeather(lat, long) {
+            //OpenWeather API
             try {
                 const Weather = await getWeatherAPI(lat, long);
+                this.convertCurrentData(Weather.current.dt, Weather.daily,Weather.current.weather[0].id,Weather.current.temp, Weather.current.feels_like );
+
                 this.CurrentWeather = Weather.current;
-                this.DailyWeather = Weather.daily;
             } catch (e) {
                 console.log(e);
             }
         },
+        convertCurrentData(CurrentTime, daily, id, currentTemp,feels_like) {
+            //Current Data
+            this.CurrentTemp = Math.round(currentTemp - 273.15);
+            this.CurrentFeel = Math.round(feels_like - 273.15);
+            this.CurrentId = id;
+            this.convertTime(CurrentTime);
+
+            //Daily Data
+            this.DailyWeather = daily;
+        },
+        async changeCity(city) {
+            //MapBox API
+            try {
+                const mapBoxKey = process.env.MIX_MAPBOXKEY;
+                const citydata = await getCityCoordinates(city, mapBoxKey);
+                const lat = citydata.features[0].center[1];
+                const long = citydata.features[0].center[0];
+                this.getWeather(lat, long);
+
+                const citytot = citydata.features[0].place_name.split(",");
+                this.LocationCity = citytot[0];
+                this.LocationCountry =
+                    citytot.length == 2 ? citytot[1] : citytot[2];
+            } catch (e) {
+                console.log(e);
+            }
+        },
+
+        convertTime(time) {
+            const dateObject = new Date(time * 1000);
+            this.CurrentTime = dateObject.toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+                hour12: false
+            });
+            //his.CurrentDay = dateObject.toLocaleDateString("fr-FR");
+
+            // const sunsetTime = new Date(this.sunset * 1000);
+            // this.sunsett = sunsetTime.toLocaleTimeString([], {
+            //     hour: "2-digit",
+            //     minute: "2-digit",
+            //     hour12: false
+            // });
+        }
         // async useLocalData() {
         //     this.WeatherItems = await JSON.parse(
         //         localStorage.getItem("WeatherData")
@@ -104,24 +152,6 @@ export default {
         //     this.CurrentWeather = this.WeatherItems.current;
         //     this.DailyWeather = this.WeatherItems.daily;
         // },
-        async changeCity(city) {
-            try {
-                const mapBoxKey = process.env.MIX_MAPBOXKEY;
-                const citydata = await getCityCoordinates(city, mapBoxKey);
-                console.log(citydata);
-                const lat = citydata.features[0].center[1];
-                const long = citydata.features[0].center[0];
-                console.log(lat + ", " + long);
-                this.getWeather(lat, long);
-
-                const citytot = citydata.features[0].place_name.split(",");
-                this.LocationCity = citytot[0];
-                this.LocationCountry =
-                    citytot.length == 2 ? citytot[1] : citytot[2];
-            } catch (e) {
-                console.log(e);
-            }
-        }
     }
 };
 </script>
