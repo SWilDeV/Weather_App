@@ -24,10 +24,10 @@
             </div>
             <div>
                 <skycon
-                    v-for="c in cities"
-                    :key="c.lat"
+                    v-if="icon"
                     :city="city"
                     :weatherId="weatherId"
+                    :icon="icon"
                 />
             </div>
         </div>
@@ -39,7 +39,6 @@
 </template>
 
 <script>
-import { getSkycon } from "./weatherIcons";
 import skycon from "./Skycon.vue";
 export default {
     name: "current",
@@ -53,13 +52,14 @@ export default {
         country: String,
         feel: Number,
         weatherId: Number,
+        icon:String,
         cities: Array
     },
     computed: {
         addedCity() {
-            return this.cities.slice(1)
+            return this.cities.slice(1);
         }
-    }
+    },
 };
 </script>
 

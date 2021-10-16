@@ -14,6 +14,7 @@
                     :feel="CurrentFeel"
                     :weatherId="CurrentId"
                     :cities="cities"
+                    :icon="CurrentIcon"
                 />
 
                 <daily
@@ -51,6 +52,7 @@ export default {
             CurrentTime: null,
             CurrentDay: null,
             CurrentId: null,
+            CurrentIcon:null,
             DailyWeather: null,
             LocationCity: "",
             LocationCountry: "",
@@ -88,9 +90,6 @@ export default {
                 this.LocationCity = LocationData.city;
                 this.LocationCountry = LocationData.country_name;
 
-                const obj = { cit: LocationData.city, lat: lat };
-                this.cities.push(obj);
-
                 this.getWeather(lat, long);
             } catch (e) {
                 console.log(e);
@@ -119,6 +118,7 @@ export default {
             this.CurrentFeel = Math.round(feels_like - 273.15);
             this.CurrentId = id;
             this.convertTime(CurrentTime);
+            this.CurrentIcon = getSkycon(id);
 
             //Daily Data
             this.DailyWeather = daily;
@@ -137,8 +137,6 @@ export default {
                 this.LocationCountry =
                     citytot.length == 2 ? citytot[1] : citytot[2];
 
-                const obj = { cit: citytot[0], lat: lat };
-                this.cities.push(obj);
             } catch (e) {
                 console.log(e);
             }

@@ -2,7 +2,7 @@
     <div>
         <canvas
             ref="iconCurrent"
-            :id="`icon${city}`"
+            :id="`iconCurrent`"
             width="96"
             height="96"
         ></canvas>
@@ -10,22 +10,28 @@
 </template>
 
 <script>
-import { getSkycon } from "./weatherIcons";
 export default {
     name: "skycon",
     props: {
         city: String,
-        weatherId: Number
+        weatherId: Number,
+        icon: String
     },
     mounted() {
-        this.getIcons();
+        this.setCurrentIcon();
+    },
+    watch: {
+        icon: {
+            handler(newValue, oldValue) {
+                this.setCurrentIcon();
+            },
+            deep: true
+        }
     },
     methods: {
-        getIcons() {
+        async setCurrentIcon() {
             const skycons = new Skycons({ color: "white" });
-            const icon = getSkycon(this.weatherId);
-            console.log(this.weatherId);
-            skycons.add(`icon${this.city}`, icon);
+            skycons.set("iconCurrent", this.icon);
             skycons.play();
         }
     }
