@@ -52,14 +52,13 @@ export default {
         country: String,
         feel: Number,
         weatherId: Number,
-        icon:String,
-        cities: Array
-    },
-    computed: {
-        addedCity() {
-            return this.cities.slice(1);
-        }
-    },
+        icon: String
+    }
+    // computed: {
+    //     addedCity() {
+    //         return this.cities.slice(1);
+    //     }
+    // },
 };
 </script>
 

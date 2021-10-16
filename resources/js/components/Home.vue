@@ -13,7 +13,6 @@
                     :temp="CurrentTemp"
                     :feel="CurrentFeel"
                     :weatherId="CurrentId"
-                    :cities="cities"
                     :icon="CurrentIcon"
                 />
 
@@ -52,12 +51,11 @@ export default {
             CurrentTime: null,
             CurrentDay: null,
             CurrentId: null,
-            CurrentIcon:null,
+            CurrentIcon: null,
             DailyWeather: null,
             LocationCity: "",
             LocationCountry: "",
             City: null,
-            cities: []
         };
     },
     computed: {
@@ -136,7 +134,6 @@ export default {
                 this.LocationCity = citytot[0];
                 this.LocationCountry =
                     citytot.length == 2 ? citytot[1] : citytot[2];
-
             } catch (e) {
                 console.log(e);
             }
