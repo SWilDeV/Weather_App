@@ -58,16 +58,16 @@ export default {
             skycons.add(`icon${this.day}`, icon);
             skycons.play();
         },
-        // convertTime() {
-        //     const dateObject = new Date(this.day * 1000);
-        //     this.DateValue = dateObject.toLocaleDateString(
-        //         window.navigator.language,
-        //         {
-        //             weekday: "short"
-        //         }
-        //     );
-        //     this.DateValue = dateObject.toLocaleDateString("fr-FR");
-        // },
+        convertTime() {
+            const dateObject = new Date(this.day * 1000);
+            this.DateValue = dateObject.toLocaleDateString(
+                window.navigator.language,
+                {
+                    weekday: "short"
+                }
+            );
+            // this.DateValue = dateObject.toLocaleDateString("fr-FR");
+        },
         convertTemps() {
             if (this.temps == null) {
                 this.TempDay = 0;

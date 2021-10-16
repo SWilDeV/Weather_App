@@ -8,7 +8,7 @@
                 <current
                     :city="LocationCity"
                     :country="LocationCountry"
-                    v-if="CurrentWeather"
+                    v-if="CurrentTime"
                     :time="CurrentTime"
                     :temp="CurrentTemp"
                     :feel="CurrentFeel"
@@ -45,17 +45,14 @@ export default {
     },
     data: function() {
         return {
-            CurrentWeather: null,
             CurrentTemp: null,
             CurrentFeel: null,
             CurrentTime: null,
-            CurrentDay: null,
             CurrentId: null,
             CurrentIcon: null,
             DailyWeather: null,
             LocationCity: "",
             LocationCountry: "",
-            City: null,
         };
     },
     computed: {
@@ -68,12 +65,8 @@ export default {
     },
     created() {
         this.getLocation();
-        // this.getIcons();
     },
     methods: {
-        getIcons() {
-            var skycons1 = new Skycons({ color: "white" });
-        },
         async getLocation() {
             //IPStack API
             try {
@@ -105,7 +98,6 @@ export default {
                     Weather.current.feels_like
                 );
 
-                this.CurrentWeather = Weather.current;
             } catch (e) {
                 console.log(e);
             }
