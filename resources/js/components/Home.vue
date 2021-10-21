@@ -52,7 +52,7 @@ export default {
             CurrentIcon: null,
             DailyWeather: null,
             LocationCity: "",
-            LocationCountry: "",
+            LocationCountry: ""
         };
     },
     computed: {
@@ -64,18 +64,15 @@ export default {
         }
     },
     created() {
-        this.getLocation();
+        //this.getLocation();
     },
     methods: {
         async getLocation() {
+            //get user location with IP adress
             //IPStack API
             try {
                 const APILocationKey = process.env.MIX_LOCATIONKEY;
                 const LocationData = await getLocation(APILocationKey);
-                localStorage.setItem(
-                    "LocationData",
-                    JSON.stringify(LocationData)
-                );
                 const lat = LocationData.latitude;
                 const long = LocationData.longitude;
                 this.LocationCity = LocationData.city;
@@ -97,7 +94,6 @@ export default {
                     Weather.current.temp,
                     Weather.current.feels_like
                 );
-
             } catch (e) {
                 console.log(e);
             }
@@ -114,6 +110,7 @@ export default {
             this.DailyWeather = daily;
         },
         async changeCity(city) {
+            //get city location with city provided by user
             //MapBox API
             try {
                 const mapBoxKey = process.env.MIX_MAPBOXKEY;

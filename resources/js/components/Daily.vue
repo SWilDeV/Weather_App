@@ -35,7 +35,6 @@ export default {
             TempDay: "",
             TempMin: "",
             TempMax: "",
-            description: "",
             id: ""
         };
     },
@@ -81,7 +80,6 @@ export default {
             }
         },
         convertWeather() {
-            this.description = this.weather[0].description;
             this.id = this.weather[0].id;
         }
     }

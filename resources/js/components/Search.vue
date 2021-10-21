@@ -13,13 +13,14 @@
         </div>
     </div> -->
     <div class="p-4 bg-indigo-900">
-        <div class="bg-white flex items-center rounded-full shadow-xl">
+        <div class="bg-white flex items-center rounded-full shadow-l">
             <input
                 class="rounded-l-full w-full py-4 px-6 text-gray-700 leading-tight focus:outline-none"
                 id="search"
                 type="text"
                 placeholder="Rechercher une ville"
                 v-model="city"
+                v-on:keyup.enter="addNewCity"
             />
 
             <div class="p-4">
