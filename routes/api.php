@@ -23,6 +23,7 @@ Route::get('/weather', function(){
     $keyAPIWeather=config('services.openweather.key');
     $latitude=request('latitude');
     $longitude=request('longitude');
+    error_log("hello");
     
     $Weather = Http::get("https://api.openweathermap.org/data/2.5/onecall?lat=$latitude&lon=$longitude&exclude=minutely&appid=$keyAPIWeather");
 
