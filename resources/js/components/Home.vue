@@ -45,15 +45,25 @@ export default {
     },
     data: function() {
         return {
-            CurrentTemp: null,
-            CurrentFeel: null,
-            CurrentTime: null,
-            CurrentId: null,
-            CurrentIcon: null,
+            CurrentTemp: 33,
+            CurrentFeel: 32,
+            CurrentTime: "hello",
+            CurrentId: 3,
+            CurrentIcon: "clear-day",
             DailyWeather: null,
             LocationCity: "",
             LocationCountry: ""
         };
+        // return {
+        //     CurrentTemp: null,
+        //     CurrentFeel: null,
+        //     CurrentTime: null,
+        //     CurrentId: null,
+        //     CurrentIcon: null,
+        //     DailyWeather: null,
+        //     LocationCity: "",
+        //     LocationCountry: ""
+        // };
     },
     computed: {
         getArray() {
@@ -64,7 +74,7 @@ export default {
         }
     },
     created() {
-        this.getLocation();
+        // this.getLocation();
     },
     methods: {
         async getLocation() {
