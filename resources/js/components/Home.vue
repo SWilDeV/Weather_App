@@ -97,6 +97,7 @@ export default {
             //OpenWeather API
             try {
                 const Weather = await getWeatherAPI(lat, long);
+                console.log (Weather);
                 this.convertCurrentData(
                     Weather.current.dt,
                     Weather.daily,
