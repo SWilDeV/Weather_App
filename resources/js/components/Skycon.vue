@@ -14,7 +14,6 @@ export default {
     name: "skycon",
     props: {
         city: String,
-        weatherId: Number,
         icon: String
     },
     mounted() {

@@ -12,7 +12,6 @@
                     :time="CurrentTime"
                     :temp="CurrentTemp"
                     :feel="CurrentFeel"
-                    :weatherId="CurrentId"
                     :icon="CurrentIcon"
                 />
 
@@ -45,25 +44,14 @@ export default {
     },
     data: function() {
         return {
-            CurrentTemp: 33,
-            CurrentFeel: 32,
-            CurrentTime: "hello",
-            CurrentId: 3,
-            CurrentIcon: "clear-day",
+            CurrentTemp: null,
+            CurrentFeel: null,
+            CurrentTime: null,
+            CurrentIcon: null,
             DailyWeather: null,
-            LocationCity: "",
+            LocationCity: "Position actuelle",
             LocationCountry: ""
         };
-        // return {
-        //     CurrentTemp: null,
-        //     CurrentFeel: null,
-        //     CurrentTime: null,
-        //     CurrentId: null,
-        //     CurrentIcon: null,
-        //     DailyWeather: null,
-        //     LocationCity: "",
-        //     LocationCountry: ""
-        // };
     },
     computed: {
         getArray() {
@@ -74,21 +62,19 @@ export default {
         }
     },
     created() {
-        // this.getLocation();
+        this.getLocation();
     },
     methods: {
         async getLocation() {
-            //get user location with IP adress
-            //IPStack API
+            //get user location
             try {
-                const APILocationKey = process.env.MIX_LOCATIONKEY;
-                const LocationData = await getLocation(APILocationKey);
-                const lat = LocationData.latitude;
-                const long = LocationData.longitude;
-                this.LocationCity = LocationData.city;
-                this.LocationCountry = LocationData.country_name;
+                const PositionData = await this.getCoordinates();
+                PositionData.coords.latitude;
 
-                this.getWeather(lat, long);
+                this.getWeather(
+                    PositionData.coords.latitude,
+                    PositionData.coords.longitude
+                );
             } catch (e) {
                 console.log(e);
             }
@@ -97,7 +83,6 @@ export default {
             //OpenWeather API
             try {
                 const Weather = await getWeatherAPI(lat, long);
-                console.log (Weather);
                 this.convertCurrentData(
                     Weather.current.dt,
                     Weather.daily,
@@ -113,7 +98,6 @@ export default {
             //Current Data
             this.CurrentTemp = Math.round(currentTemp - 273.15);
             this.CurrentFeel = Math.round(feels_like - 273.15);
-            this.CurrentId = id;
             this.convertTime(CurrentTime);
             this.CurrentIcon = getSkycon(id);
 
@@ -154,18 +138,12 @@ export default {
             //     minute: "2-digit",
             //     hour12: false
             // });
+        },
+        async getCoordinates() {
+            return new Promise((res, rej) => {
+                navigator.geolocation.getCurrentPosition(res, rej);
+            });
         }
-        // async useLocalData() {
-        //     this.WeatherItems = await JSON.parse(
-        //         localStorage.getItem("WeatherData")
-        //     );
-        //     const Loc = await JSON.parse(localStorage.getItem("LocationData"));
-        //     this.LocationCity = Loc.city;
-        //     this.LocationCountry = Loc.country_name;
-
-        //     this.CurrentWeather = this.WeatherItems.current;
-        //     this.DailyWeather = this.WeatherItems.daily;
-        // },
     }
 };
 </script>

@@ -9,7 +9,7 @@
                         <h1>{{ time }}</h1>
                     </div>
                     <div class="pt-5">
-                        <h1>{{ city }}, {{ country }}</h1>
+                        <h1>{{ city }} {{ country }}</h1>
                     </div>
 
                     <div>
@@ -23,12 +23,7 @@
                 </div>
             </div>
             <div>
-                <skycon
-                    v-if="icon"
-                    :city="city"
-                    :weatherId="weatherId"
-                    :icon="icon"
-                />
+                <skycon v-if="icon" :city="city" :icon="icon" />
             </div>
         </div>
         <!--end current weather -->
@@ -51,7 +46,6 @@ export default {
         city: String,
         country: String,
         feel: Number,
-        weatherId: Number,
         icon: String
     }
     // computed: {
