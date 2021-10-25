@@ -37,7 +37,7 @@
 
 <script>
 export default {
-    name: "search-bar",
+    name: "search-bar", //name
     data() {
         return {
             city: ""
